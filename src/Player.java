@@ -1,16 +1,21 @@
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Player extends GameObject{
+	HashMap<String, Skill> skills = new HashMap<>();
+	String skill = "";
 
 	Player(Level l) throws IOException {
 		this.pos = new Vec2(0, 0);
@@ -37,7 +42,13 @@ public class Player extends GameObject{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		Skill skill1 = new Skill() {
+			@Override
+			public void use() {
+				System.out.println("Use");
+			}
+		};
+		skills.put("shield", new Shield());
 		boundingBox = new BoundingBox(pos.x, pos.y, tilesWalk.get(0).getWidth(), tilesWalk.get(0).getHeight());
 		numberAnimationStates = tilesWalk.size();
 
@@ -51,6 +62,13 @@ public class Player extends GameObject{
 			clip.start();
 		} catch (Exception e){
 			e.printStackTrace();
+		}
+	}
+	public void listenToKey(int keyCode){
+		skill = skill.concat(KeyEvent.getKeyText(keyCode));
+		if (skills.get(skill.toLowerCase())!=null){
+			skills.get(skill.toLowerCase()).use();
+			skill = "";
 		}
 	}
 

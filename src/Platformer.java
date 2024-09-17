@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -132,6 +131,9 @@ public class Platformer extends JFrame {
 		for (GameObject object: objects) {
 			object.drawObject(g2d);
 		}
+		g2d.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 28));
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(l.player.skill, 100, 100);
 
 	}
 
@@ -189,6 +191,9 @@ public class Platformer extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			if (keyCode >=65 && keyCode<=90){
+				player.listenToKey(keyCode);
 			}
 		}
 

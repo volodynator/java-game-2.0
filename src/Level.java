@@ -67,12 +67,6 @@ public class Level {
 			offsetX = resultingLevelImg.getWidth() - 1000;
 		tilesToCheck = tiles.stream().filter(tile->(tile.hasRigidCollision)&&(tile.bb.max.x<player.pos.x+1000)&&(tile.bb.min.x>player.pos.x-1000)).toList();
 
-		System.out.println("Player position: "+player.pos.x);
-		System.out.println("Offset: "+offsetX);
-		System.out.println("Tiles size: "+tiles.size());
-		System.out.println("Tiles to check size: "+tilesToCheck.size());
-		System.out.println("--------------------------------");
-
 	}
 
 	public void initLevel() {
