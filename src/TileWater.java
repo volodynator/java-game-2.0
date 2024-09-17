@@ -4,7 +4,7 @@ public class TileWater extends Tile {
         super(imgIndex,x,y);
     }
 
-    public void onCollision(Player p){
-        p.kill();
-    }
+//    public void onCollision(Player p){
+//        p.kill();
+//    }
 }

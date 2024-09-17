@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Tile {
-
     public static float tileSize = 70;
     public static ArrayList<BufferedImage> images = new ArrayList<>();
 
@@ -33,7 +32,7 @@ public class Tile {
         g2d.drawImage(images.get(imageIndex), null, (int)(bb.min.x -offsetX), (int)(bb.min.y-offsetY));
     }
 
-    public void onCollision(Player p){
-        p.lastValidPosition = bb.min.add(new Vec2(0,-Tile.tileSize*2));
+    public void onCollision(GameObject object){
+        object.lastValidPosition = bb.min.add(new Vec2(0,-Tile.tileSize*2));
     }
 }

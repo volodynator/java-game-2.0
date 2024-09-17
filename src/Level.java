@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ public class Level {
 	Vec2 lvlSize;
 	float offsetX;
 	ArrayList<Tile> tiles;
+	List<Tile> tilesToCheck;
 
 	public Level(String levelMapPath, String levelBackgroundMapPath) {
 		try {
@@ -63,6 +65,14 @@ public class Level {
 
 		if (offsetX > resultingLevelImg.getWidth() - 1000)
 			offsetX = resultingLevelImg.getWidth() - 1000;
+		tilesToCheck = tiles.stream().filter(tile->(tile.hasRigidCollision)&&(tile.bb.max.x<player.pos.x+1000)&&(tile.bb.min.x>player.pos.x-1000)).toList();
+
+		System.out.println("Player position: "+player.pos.x);
+		System.out.println("Offset: "+offsetX);
+		System.out.println("Tiles size: "+tiles.size());
+		System.out.println("Tiles to check size: "+tilesToCheck.size());
+		System.out.println("--------------------------------");
+
 	}
 
 	public void initLevel() {
@@ -102,7 +112,8 @@ public class Level {
 				if (color.equals(Color.BLUE))
 					t = new TileWater(0,x*Tile.tileSize,y*Tile.tileSize);
 				if (color.equals(Color.GREEN))
-					t = new Tile(1,x*Tile.tileSize,y*Tile.tileSize);
+					// decorative -> no rigid collision
+					t = new Tile(1,x*Tile.tileSize,y*Tile.tileSize, false);
 				if (color.equals(Color.BLACK)){
 					t = new Tile(2, x*Tile.tileSize,y*Tile.tileSize);
 				}
