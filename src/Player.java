@@ -42,13 +42,9 @@ public class Player extends GameObject{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Skill skill1 = new Skill() {
-			@Override
-			public void use() {
-				System.out.println("Use");
-			}
-		};
+
 		skills.put("shield", new Shield());
+		skills.put("fire", new FireballCreator(level, this, 20, 20, 300, 2));
 		boundingBox = new BoundingBox(pos.x, pos.y, tilesWalk.get(0).getWidth(), tilesWalk.get(0).getHeight());
 		numberAnimationStates = tilesWalk.size();
 
@@ -64,7 +60,7 @@ public class Player extends GameObject{
 			e.printStackTrace();
 		}
 	}
-	public void listenToKey(int keyCode){
+	public void listenToKey(int keyCode) throws IOException {
 		skill = skill.concat(KeyEvent.getKeyText(keyCode));
 		if (skills.get(skill.toLowerCase())!=null){
 			skills.get(skill.toLowerCase()).use();
