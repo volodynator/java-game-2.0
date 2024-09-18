@@ -43,8 +43,9 @@ public class Player extends GameObject{
 			e.printStackTrace();
 		}
 
-		skills.put("shield", new Shield());
-		skills.put("fire", new FireballCreator(level, this, 20, 20, 300, 2));
+		skills.put("kj", new Shield());
+		skills.put("ijl", new FireballCreator(level, this, 20, 20, 300, 2));
+		skills.put("ilj", new Shuriken(level, this, 20, 20, 500, 8));
 		boundingBox = new BoundingBox(pos.x, pos.y, tilesWalk.get(0).getWidth(), tilesWalk.get(0).getHeight());
 		numberAnimationStates = tilesWalk.size();
 
@@ -66,6 +67,9 @@ public class Player extends GameObject{
 			skills.get(skill.toLowerCase()).use();
 			skill = "";
 		}
+	}
+	public void resetKeyListener(){
+		skill="";
 	}
 
 }
