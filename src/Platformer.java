@@ -94,7 +94,6 @@ public class Platformer extends JFrame {
 			object.update();
 			object.checkCollision();
 		}
-
 		repaint();
 	}
 
@@ -130,6 +129,9 @@ public class Platformer extends JFrame {
 		}
 		for (GameObject object: objects) {
 			object.drawObject(g2d);
+		}
+		for (Bullet bullet: l.bullets) {
+			g2d.drawImage(bullet.image, (int) (bullet.x - l.offsetX), (int) bullet.y, null);
 		}
 		g2d.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 28));
 		g2d.setColor(Color.WHITE);
@@ -172,11 +174,11 @@ public class Platformer extends JFrame {
 			if (keyCode == KeyEvent.VK_DOWN) {
 			}
 
-			if (keyCode == KeyEvent.VK_LEFT) {
+			if (keyCode == KeyEvent.VK_A) {
 				player.walkingLeft = true;
 			}
 
-			if (keyCode == KeyEvent.VK_RIGHT) {
+			if (keyCode == KeyEvent.VK_D) {
 				player.walkingRight = true;
 			}
 
@@ -184,16 +186,23 @@ public class Platformer extends JFrame {
 				player.jump = true;
 			}
 
-			if (keyCode == KeyEvent.VK_R) {
+//			if (keyCode == KeyEvent.VK_R) {
+//				try {
+//					restart();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+			if (keyCode >=73 && keyCode<=76){
 				try {
-					restart();
+					player.listenToKey(keyCode);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 			}
-			if (keyCode >=65 && keyCode<=90){
-				player.listenToKey(keyCode);
+			if (keyCode==KeyEvent.VK_BACK_SPACE){
+				player.resetKeyListener();
 			}
 		}
 
@@ -208,11 +217,11 @@ public class Platformer extends JFrame {
 			if (keyCode == KeyEvent.VK_DOWN) {
 			}
 
-			if (keyCode == KeyEvent.VK_LEFT) {
+			if (keyCode == KeyEvent.VK_A) {
 				player.walkingLeft = false;
 			}
 
-			if (keyCode == KeyEvent.VK_RIGHT) {
+			if (keyCode == KeyEvent.VK_D) {
 				player.walkingRight = false;
 			}
 

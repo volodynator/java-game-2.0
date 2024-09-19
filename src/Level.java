@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -19,6 +21,7 @@ public class Level {
 	float offsetX;
 	ArrayList<Tile> tiles;
 	List<Tile> tilesToCheck;
+	List<Bullet> bullets = new CopyOnWriteArrayList<>();
 
 	public Level(String levelMapPath, String levelBackgroundMapPath) {
 		try {
@@ -47,15 +50,15 @@ public class Level {
 	public void update() {
 
 		//update camera offset
-		float diff = (player.boundingBox.max.x + player.boundingBox.min.x)*0.5f-500  - offsetX;
+		float diff = (player.boundingBox.max.x + player.boundingBox.min.x) * 0.5f - 500 - offsetX;
 
 		int noMoveZone = 100;
 
-		if(Math.abs(diff)>noMoveZone){
-			if(diff<0)
-				diff+=noMoveZone;
+		if (Math.abs(diff) > noMoveZone) {
+			if (diff < 0)
+				diff += noMoveZone;
 			else
-				diff-=noMoveZone;
+				diff -= noMoveZone;
 			offsetX += diff;
 		}
 
@@ -65,8 +68,9 @@ public class Level {
 
 		if (offsetX > resultingLevelImg.getWidth() - 1000)
 			offsetX = resultingLevelImg.getWidth() - 1000;
-		tilesToCheck = tiles.stream().filter(tile->(tile.hasRigidCollision)&&(tile.bb.max.x<player.pos.x+1000)&&(tile.bb.min.x>player.pos.x-1000)).toList();
 
+		tilesToCheck = tiles.stream().filter(tile -> (tile.hasRigidCollision) && (tile.bb.max.x < player.pos.x + 1000) && (tile.bb.min.x > player.pos.x - 1000)).toList();
+		bullets.stream().filter(Bullet::isInRange).forEach(Bullet::update);
 	}
 
 	public void initLevel() {
